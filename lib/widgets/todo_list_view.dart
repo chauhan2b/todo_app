@@ -59,7 +59,7 @@ class _TodoListViewState extends ConsumerState<TodoListView> {
                   leading: CircleAvatar(
                     child: Text(unfinishedTodos.length.toString()),
                   ),
-                  title: const Text('Remaining To-Do\'s'),
+                  title: const Text('Remaining Tasks'),
                   trailing: isUnfinishedVisible
                       ? const Icon(Icons.arrow_upward)
                       : const Icon(Icons.arrow_downward),
@@ -91,7 +91,7 @@ class _TodoListViewState extends ConsumerState<TodoListView> {
                     child: Text(finishedTodos.length.toString()),
                   ),
                   title: const Text(
-                    'Finished To-Do\'s',
+                    'Finished Tasks',
                   ),
                   trailing: isFinishedVisible
                       ? const Icon(Icons.arrow_upward)
