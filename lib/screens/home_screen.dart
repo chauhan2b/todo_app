@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:todo_app/controllers/todo_controller.dart';
+import 'package:go_router/go_router.dart';
 import 'package:todo_app/respositories/todo_repository.dart';
+import 'package:todo_app/routing/go_router.dart';
 
 import '../widgets/todo_list_view.dart';
 
@@ -24,7 +25,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
       body: TodoListView(todos: todos),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          ref.read(todoControllerProvider).addTodo('good then');
+          context.goNamed(AppRoute.addTodoScreen.name);
         },
         child: const Icon(Icons.add),
       ),
