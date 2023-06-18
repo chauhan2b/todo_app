@@ -17,6 +17,13 @@ class TodoRepository extends StateNotifier<List<Todo>> {
     ];
   }
 
+  void editTodo(String id, String title) {
+    state = [
+      for (final todo in state)
+        if (todo.id == id) todo.copyWith(title: title) else todo
+    ];
+  }
+
   void toggleTodo(String id) {
     state = [
       for (final todo in state)

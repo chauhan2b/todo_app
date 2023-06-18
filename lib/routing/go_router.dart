@@ -2,6 +2,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:todo_app/screens/add_todo_screen.dart';
 
+import '../models/todo.dart';
 import '../screens/home_screen.dart';
 
 enum AppRoute { homeScreen, addTodoScreen }
@@ -18,7 +19,16 @@ final goRouterProvider = Provider<GoRouter>((ref) {
           GoRoute(
             name: AppRoute.addTodoScreen.name,
             path: 'add-todo-screen',
-            builder: (context, state) => const AddTodoScreen(),
+            builder: (context, state) {
+              if (state.extra != null) {
+                final todo = state.extra as Todo;
+                return AddTodoScreen(
+                  todo: todo,
+                );
+              }
+
+              return const AddTodoScreen();
+            },
           ),
         ],
       )

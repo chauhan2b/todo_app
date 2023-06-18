@@ -1,33 +1,29 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:todo_app/widgets/todo_heading.dart';
+
+import 'package:todo_app/widgets/todo_list_tile.dart';
 
 import '../models/todo.dart';
-import '../respositories/todo_repository.dart';
 
-class TodoListView extends ConsumerStatefulWidget {
+class TodoListView extends ConsumerWidget {
   const TodoListView({
-    Key? key,
+    super.key,
     required this.todos,
-  }) : super(key: key);
+  });
 
   final List<Todo> todos;
 
   @override
-  ConsumerState<ConsumerStatefulWidget> createState() => _TodoListViewState();
-}
-
-class _TodoListViewState extends ConsumerState<TodoListView> {
-  bool isUnfinishedVisible = true;
-  bool isFinishedVisible = true;
-
-  @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    bool isUnfinishedVisible = true;
+    bool isFinishedVisible = true;
     final size = MediaQuery.of(context).size;
-    final unfinishedTodos =
-        widget.todos.where((todo) => !todo.completed).toList();
-    final finishedTodos = widget.todos.where((todo) => todo.completed).toList();
+    final unfinishedTodos = todos.where((todo) => !todo.completed).toList();
+    final finishedTodos = todos.where((todo) => todo.completed).toList();
 
-    return widget.todos.isEmpty
+    return todos.isEmpty
         ? Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
@@ -47,75 +43,38 @@ class _TodoListViewState extends ConsumerState<TodoListView> {
             ],
           )
         : ListView.builder(
-            itemCount: widget.todos.length + 2,
+            itemCount: todos.length + 2,
             itemBuilder: (context, index) {
               if (index == 0) {
-                return ListTile(
-                  onTap: () {
-                    setState(() {
-                      isUnfinishedVisible = !isUnfinishedVisible;
-                    });
-                  },
-                  leading: CircleAvatar(
-                    child: Text(unfinishedTodos.length.toString()),
-                  ),
-                  title: const Text('Remaining Tasks'),
-                  trailing: isUnfinishedVisible
-                      ? const Icon(Icons.arrow_upward)
-                      : const Icon(Icons.arrow_downward),
+                return TodoHeading(
+                  title: 'Remaining Tasks',
+                  count: unfinishedTodos.length,
                 );
               } else if (unfinishedTodos.isNotEmpty &&
                   index <= unfinishedTodos.length) {
-                return Visibility(
-                  visible: isUnfinishedVisible,
-                  child: ListTile(
-                    leading: Checkbox(
-                      value: unfinishedTodos[index - 1].completed,
-                      onChanged: (_) {
-                        ref
-                            .read(todoRepositoryProvider.notifier)
-                            .toggleTodo(unfinishedTodos[index - 1].id);
-                      },
-                    ),
-                    title: Text(unfinishedTodos[index - 1].title),
-                  ),
+                return TodoListTile(
+                  key: Key(unfinishedTodos[index - 1].id),
+                  isVisible: isUnfinishedVisible,
+                  todos: unfinishedTodos,
+                  index: index - 1, // subtracting title which is at index 0
                 );
               } else if (index == unfinishedTodos.length + 1) {
-                return ListTile(
-                  onTap: () {
-                    setState(() {
-                      isFinishedVisible = !isFinishedVisible;
-                    });
-                  },
-                  leading: CircleAvatar(
-                    child: Text(finishedTodos.length.toString()),
-                  ),
-                  title: const Text(
-                    'Finished Tasks',
-                  ),
-                  trailing: isFinishedVisible
-                      ? const Icon(Icons.arrow_upward)
-                      : const Icon(Icons.arrow_downward),
+                return TodoHeading(
+                  title: 'Finished Tasks',
+                  count: finishedTodos.length,
                 );
               } else if (finishedTodos.isNotEmpty &&
                   index >= unfinishedTodos.length) {
-                int i = index - unfinishedTodos.length - 2;
-                return Visibility(
-                  visible: isFinishedVisible,
-                  child: ListTile(
-                    leading: Checkbox(
-                      value: finishedTodos[i].completed,
-                      onChanged: (_) {
-                        ref
-                            .read(todoRepositoryProvider.notifier)
-                            .toggleTodo(finishedTodos[i].id);
-                      },
-                    ),
-                    title: Text(
-                      finishedTodos[i].title,
-                      style: const TextStyle(
-                          decoration: TextDecoration.lineThrough),
-                    ),
+                int i = index -
+                    unfinishedTodos.length -
+                    2; // subtracting finished todo and 2 heading
+                return TodoListTile(
+                  key: Key(finishedTodos[i].id),
+                  isVisible: isFinishedVisible,
+                  todos: finishedTodos,
+                  index: i,
+                  textStyle: const TextStyle(
+                    decoration: TextDecoration.lineThrough,
                   ),
                 );
               }
