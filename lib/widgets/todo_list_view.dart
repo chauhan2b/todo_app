@@ -1,29 +1,34 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:todo_app/widgets/todo_heading.dart';
 
+import 'package:todo_app/widgets/todo_heading.dart';
 import 'package:todo_app/widgets/todo_list_tile.dart';
 
 import '../models/todo.dart';
 
-class TodoListView extends ConsumerWidget {
+class TodoListView extends ConsumerStatefulWidget {
+  final List<Todo> todos;
   const TodoListView({
     super.key,
     required this.todos,
   });
 
-  final List<Todo> todos;
-
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    bool isUnfinishedVisible = true;
-    bool isFinishedVisible = true;
-    final size = MediaQuery.of(context).size;
-    final unfinishedTodos = todos.where((todo) => !todo.completed).toList();
-    final finishedTodos = todos.where((todo) => todo.completed).toList();
+  ConsumerState<ConsumerStatefulWidget> createState() => _TodoListViewState();
+}
 
-    return todos.isEmpty
+class _TodoListViewState extends ConsumerState<TodoListView> {
+  bool isUnfinishedVisible = true;
+  bool isFinishedVisible = true;
+  @override
+  Widget build(BuildContext context) {
+    final size = MediaQuery.of(context).size;
+    final unfinishedTodos =
+        widget.todos.where((todo) => !todo.completed).toList();
+    final finishedTodos = widget.todos.where((todo) => todo.completed).toList();
+
+    return widget.todos.isEmpty
         ? Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
@@ -43,12 +48,18 @@ class TodoListView extends ConsumerWidget {
             ],
           )
         : ListView.builder(
-            itemCount: todos.length + 2,
+            itemCount: widget.todos.length + 2,
             itemBuilder: (context, index) {
               if (index == 0) {
                 return TodoHeading(
                   title: 'Remaining Tasks',
                   count: unfinishedTodos.length,
+                  isVisible: isUnfinishedVisible,
+                  onTap: () {
+                    setState(() {
+                      isUnfinishedVisible = !isUnfinishedVisible;
+                    });
+                  },
                 );
               } else if (unfinishedTodos.isNotEmpty &&
                   index <= unfinishedTodos.length) {
@@ -62,6 +73,12 @@ class TodoListView extends ConsumerWidget {
                 return TodoHeading(
                   title: 'Finished Tasks',
                   count: finishedTodos.length,
+                  isVisible: isFinishedVisible,
+                  onTap: () {
+                    setState(() {
+                      isFinishedVisible = !isFinishedVisible;
+                    });
+                  },
                 );
               } else if (finishedTodos.isNotEmpty &&
                   index >= unfinishedTodos.length) {

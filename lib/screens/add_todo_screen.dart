@@ -1,10 +1,13 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import 'package:todo_app/controllers/todo_controller.dart';
 
+import '../constants/todo_examples.dart';
 import '../models/todo.dart';
 
 class AddTodoScreen extends ConsumerStatefulWidget {
@@ -20,6 +23,7 @@ class AddTodoScreen extends ConsumerStatefulWidget {
 
 class _AddTodoScreenState extends ConsumerState<AddTodoScreen> {
   late TextEditingController controller;
+  String todoExample = todoExamples[Random().nextInt(todoExamples.length)];
 
   @override
   void initState() {
@@ -73,7 +77,7 @@ class _AddTodoScreenState extends ConsumerState<AddTodoScreen> {
                 context.pop();
               },
               decoration: InputDecoration(
-                hintText: 'e.g., Buy some vegetables',
+                hintText: 'e.g., $todoExample',
                 label: const Text('Your task'),
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(12.0),

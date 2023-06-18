@@ -1,32 +1,26 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
 
-class TodoHeading extends StatefulWidget {
-  const TodoHeading({
-    super.key,
-    required this.title,
-    required this.count,
-  });
+class TodoHeading extends StatelessWidget {
+  const TodoHeading(
+      {super.key,
+      required this.title,
+      required this.count,
+      required this.isVisible,
+      required this.onTap});
   final String title;
   final int count;
+  final bool isVisible;
+  final VoidCallback onTap;
 
-  @override
-  State<TodoHeading> createState() => _TodoHeadingState();
-}
-
-class _TodoHeadingState extends State<TodoHeading> {
-  bool isVisible = true;
   @override
   Widget build(BuildContext context) {
     return ListTile(
-      onTap: () {
-        setState(() {
-          isVisible = !isVisible;
-        });
-      },
+      onTap: onTap,
       leading: CircleAvatar(
-        child: Text(widget.count.toString()),
+        child: Text(count.toString()),
       ),
-      title: Text(widget.title),
+      title: Text(title),
       trailing: isVisible
           ? const Icon(Icons.arrow_upward)
           : const Icon(Icons.arrow_downward),
