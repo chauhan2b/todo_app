@@ -22,8 +22,8 @@ class TodoHeading extends StatelessWidget {
       ),
       title: Text(title),
       trailing: isVisible
-          ? const Icon(Icons.arrow_upward)
-          : const Icon(Icons.arrow_downward),
+          ? const Icon(Icons.keyboard_arrow_up)
+          : const Icon(Icons.keyboard_arrow_down),
     );
   }
 }
