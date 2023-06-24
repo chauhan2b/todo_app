@@ -47,11 +47,10 @@ class _TodoListViewState extends ConsumerState<TodoListView> {
               ),
             ],
           )
-        : ListView.builder(
-            itemCount: widget.todos.length + 2,
-            itemBuilder: (context, index) {
-              if (index == 0) {
-                return TodoHeading(
+        : CustomScrollView(
+            slivers: [
+              SliverToBoxAdapter(
+                child: TodoHeading(
                   title: 'Remaining Tasks',
                   count: unfinishedTodos.length,
                   isVisible: isUnfinishedVisible,
@@ -60,18 +59,21 @@ class _TodoListViewState extends ConsumerState<TodoListView> {
                       isUnfinishedVisible = !isUnfinishedVisible;
                     });
                   },
-                );
-              } else if (unfinishedTodos.isNotEmpty &&
-                  index <= unfinishedTodos.length) {
-                return TodoListTile(
-                  key: Key(unfinishedTodos[index - 1].id),
-                  isVisible: isUnfinishedVisible,
-                  todos: unfinishedTodos,
-                  index: index - 1, // subtracting title which is at index 0
-                );
-              } else if (index == unfinishedTodos.length + 1) {
-                return TodoHeading(
-                  title: 'Finished Tasks',
+                ),
+              ),
+              SliverList(
+                delegate: SliverChildBuilderDelegate(
+                  childCount: unfinishedTodos.length,
+                  (context, index) => TodoListTile(
+                    isVisible: isUnfinishedVisible,
+                    todos: unfinishedTodos,
+                    index: index,
+                  ),
+                ),
+              ),
+              SliverToBoxAdapter(
+                child: TodoHeading(
+                  title: 'Completed Tasks',
                   count: finishedTodos.length,
                   isVisible: isFinishedVisible,
                   onTap: () {
@@ -79,24 +81,19 @@ class _TodoListViewState extends ConsumerState<TodoListView> {
                       isFinishedVisible = !isFinishedVisible;
                     });
                   },
-                );
-              } else if (finishedTodos.isNotEmpty &&
-                  index >= unfinishedTodos.length) {
-                int i = index -
-                    unfinishedTodos.length -
-                    2; // subtracting finished todo and 2 heading
-                return TodoListTile(
-                  key: Key(finishedTodos[i].id),
-                  isVisible: isFinishedVisible,
-                  todos: finishedTodos,
-                  index: i,
-                  textStyle: const TextStyle(
-                    decoration: TextDecoration.lineThrough,
+                ),
+              ),
+              SliverList(
+                delegate: SliverChildBuilderDelegate(
+                  childCount: finishedTodos.length,
+                  (context, index) => TodoListTile(
+                    isVisible: isFinishedVisible,
+                    todos: finishedTodos,
+                    index: index,
                   ),
-                );
-              }
-              return null;
-            },
+                ),
+              ),
+            ],
           );
   }
 }
