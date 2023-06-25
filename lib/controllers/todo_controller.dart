@@ -1,7 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../models/todo.dart';
-import '../respositories/todo_repository.dart';
+import '../repositories/todo_repository.dart';
 
 class TodoController {
   final ProviderRef ref;
