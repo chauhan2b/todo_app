@@ -1,13 +1,11 @@
-import 'package:adaptive_theme/adaptive_theme.dart';
-import 'package:firebase_core/firebase_core.dart';
+import 'package:dynamic_color/dynamic_color.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:todo_app/firebase_options.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:todo_app/routing/go_router.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   runApp(const ProviderScope(child: MainApp()));
 }
 
@@ -17,15 +15,21 @@ class MainApp extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final goRouter = ref.watch(goRouterProvider);
-    return AdaptiveTheme(
-      light: ThemeData.light(useMaterial3: true),
-      dark: ThemeData.dark(useMaterial3: true),
-      initial: AdaptiveThemeMode.system,
-      builder: (theme, darkTheme) => MaterialApp.router(
+    return DynamicColorBuilder(
+      builder: (lightColorScheme, darkColorScheme) => MaterialApp.router(
         debugShowCheckedModeBanner: false,
         routerConfig: goRouter,
-        theme: theme,
-        darkTheme: darkTheme,
+        theme: ThemeData(
+          useMaterial3: true,
+          colorScheme: lightColorScheme,
+          fontFamily: GoogleFonts.rubik().fontFamily,
+        ),
+        darkTheme: ThemeData(
+          useMaterial3: true,
+          colorScheme: darkColorScheme,
+          fontFamily: GoogleFonts.rubik().fontFamily,
+        ),
+        themeMode: ThemeMode.system,
       ),
     );
   }

@@ -1,6 +1,7 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 import 'package:todo_app/widgets/todo_heading.dart';
 import 'package:todo_app/widgets/todo_list_tile.dart';
@@ -34,7 +35,7 @@ class _TodoListViewState extends ConsumerState<TodoListView> {
             children: [
               Center(
                 child: Image.asset(
-                  'assets/add-tasks.png',
+                  'assets/add_tasks.png',
                   width: size.width * 0.75,
                 ),
               ),
@@ -43,7 +44,7 @@ class _TodoListViewState extends ConsumerState<TodoListView> {
               ),
               const Text(
                 'Add some tasks',
-                style: TextStyle(fontSize: 24.0),
+                style: TextStyle(fontSize: 18.0),
               ),
             ],
           )

@@ -28,7 +28,7 @@ class TodoListTile extends ConsumerWidget {
         key: Key(todos[index].id),
         background: Container(
           padding: const EdgeInsets.only(right: 16.0),
-          color: Colors.redAccent,
+          color: Colors.redAccent.shade700,
           child: const Align(
             alignment: Alignment.centerRight,
             child: Icon(
