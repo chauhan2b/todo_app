@@ -1,7 +1,6 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 
 import 'package:todo_app/widgets/todo_heading.dart';
 import 'package:todo_app/widgets/todo_list_tile.dart';
@@ -91,6 +90,9 @@ class _TodoListViewState extends ConsumerState<TodoListView> {
                     isVisible: isFinishedVisible,
                     todos: finishedTodos,
                     index: index,
+                    textStyle: const TextStyle(
+                      decoration: TextDecoration.lineThrough,
+                    ),
                   ),
                 ),
               ),
