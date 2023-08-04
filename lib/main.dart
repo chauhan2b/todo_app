@@ -1,11 +1,25 @@
 import 'package:dynamic_color/dynamic_color.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:todo_app/routing/go_router.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
+  // makes flutter draw behind system navigation bar
+  SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
+      systemStatusBarContrastEnforced: true,
+      systemNavigationBarColor: Colors.transparent,
+      systemNavigationBarDividerColor: Colors.transparent,
+      systemNavigationBarIconBrightness: Brightness.dark,
+      statusBarIconBrightness: Brightness.dark));
+
+  // Setting SystemUIMode
+  SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge,
+      overlays: [SystemUiOverlay.top]);
+
   runApp(const ProviderScope(child: MainApp()));
 }
 
