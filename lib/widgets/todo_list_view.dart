@@ -1,17 +1,14 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:todo_app/repositories/todo_repository.dart';
 
 import 'package:todo_app/widgets/todo_heading.dart';
 import 'package:todo_app/widgets/todo_list_tile.dart';
 
-import '../models/todo.dart';
-
 class TodoListView extends ConsumerStatefulWidget {
-  final List<Todo> todos;
   const TodoListView({
     super.key,
-    required this.todos,
   });
 
   @override
@@ -24,11 +21,11 @@ class _TodoListViewState extends ConsumerState<TodoListView> {
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
-    final unfinishedTodos =
-        widget.todos.where((todo) => !todo.completed).toList();
-    final finishedTodos = widget.todos.where((todo) => todo.completed).toList();
+    final unfinishedTodos = ref.watch(unFinishedTodoProvider);
+    final finishedTodos = ref.watch(finishedTodoProvider);
+    bool isEmpty = unfinishedTodos.isEmpty && finishedTodos.isEmpty;
 
-    return widget.todos.isEmpty
+    return isEmpty
         ? Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [

@@ -33,6 +33,17 @@ class _AddTodoScreenState extends ConsumerState<AddTodoScreen> {
 
   @override
   Widget build(BuildContext context) {
+    void saveTodo() {
+      if (widget.todo == null) {
+        ref.read(todoControllerProvider).addTodo(controller.text.trim());
+      } else {
+        ref
+            .read(todoControllerProvider)
+            .editTodo(widget.todo!.id, controller.text.trim());
+      }
+      context.pop();
+    }
+
     return Scaffold(
       appBar: AppBar(
         title: controller.text == ''
@@ -41,19 +52,8 @@ class _AddTodoScreenState extends ConsumerState<AddTodoScreen> {
         actions: [
           IconButton(
             icon: const Icon(Icons.check),
-            onPressed: () {
-              if (widget.todo == null) {
-                ref
-                    .read(todoControllerProvider)
-                    .addTodo(controller.text.trim());
-              } else {
-                ref
-                    .read(todoControllerProvider)
-                    .editTodo(widget.todo!.id, controller.text.trim());
-              }
-              context.pop();
-            },
-          )
+            onPressed: saveTodo,
+          ),
         ],
       ),
       body: Padding(
@@ -63,18 +63,9 @@ class _AddTodoScreenState extends ConsumerState<AddTodoScreen> {
             TextField(
               controller: controller,
               autofocus: true,
-              // WARNING REMOVE WHEN ADDING NEW FEATURES
+              // ! WARNING REMOVE WHEN ADDING NEW FEATURES
               onSubmitted: (_) {
-                if (widget.todo == null) {
-                  ref
-                      .read(todoControllerProvider)
-                      .addTodo(controller.text.trim());
-                } else {
-                  ref
-                      .read(todoControllerProvider)
-                      .editTodo(widget.todo!.id, controller.text.trim());
-                }
-                context.pop();
+                saveTodo();
               },
               decoration: InputDecoration(
                 hintText: 'e.g., $todoExample',
