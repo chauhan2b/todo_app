@@ -21,7 +21,7 @@ class _TodoListViewState extends ConsumerState<TodoListView> {
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
-    final unfinishedTodos = ref.watch(unFinishedTodoProvider);
+    final unfinishedTodos = ref.watch(unfinishedTodoProvider);
     final finishedTodos = ref.watch(finishedTodoProvider);
     bool isEmpty = unfinishedTodos.isEmpty && finishedTodos.isEmpty;
 

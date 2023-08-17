@@ -69,7 +69,7 @@ final finishedTodoProvider = Provider<List<Todo>>((ref) {
   return todos.where((todo) => todo.completed).toList();
 });
 
-final unFinishedTodoProvider = Provider<List<Todo>>((ref) {
+final unfinishedTodoProvider = Provider<List<Todo>>((ref) {
   final todos = ref.watch(todoRepositoryProvider);
   return todos.where((todo) => !todo.completed).toList();
 });
