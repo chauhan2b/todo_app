@@ -1,25 +1,23 @@
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
-import 'package:todo_app/routing/go_router.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../widgets/todo_list_view.dart';
+import 'package:todo_app/providers/drawer_index_provider.dart';
+import 'package:todo_app/screens/collections_screen.dart';
+import 'package:todo_app/screens/notes_screen.dart';
+import 'package:todo_app/screens/tasks_screen.dart';
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends ConsumerWidget {
   const HomeScreen({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final index = ref.watch(drawerIndexProvider);
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('My To-Do'),
-      ),
-      body: const TodoListView(),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          context.goNamed(AppRoute.addTodoScreen.name);
-        },
-        child: const Icon(Icons.add),
-      ),
+      body: [
+        const TasksScreen(),
+        const CollectionsScreen(),
+        const NotesScreen(),
+      ][index],
     );
   }
 }
