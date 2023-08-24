@@ -4,7 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:todo_app/routing/go_router.dart';
 import 'package:todo_app/widgets/my_drawer.dart';
 
-import '../widgets/todo_list_view.dart';
+import '../../widgets/todo_list_view.dart';
 
 class TasksScreen extends StatefulWidget {
   const TasksScreen({super.key});

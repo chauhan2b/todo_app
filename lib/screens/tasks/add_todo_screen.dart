@@ -7,8 +7,8 @@ import 'package:go_router/go_router.dart';
 
 import 'package:todo_app/controllers/todo_controller.dart';
 
-import '../constants/todo_examples.dart';
-import '../models/todo.dart';
+import '../../constants/todo_examples.dart';
+import '../../models/todo.dart';
 
 class AddTodoScreen extends ConsumerStatefulWidget {
   const AddTodoScreen({
@@ -23,12 +23,19 @@ class AddTodoScreen extends ConsumerStatefulWidget {
 
 class _AddTodoScreenState extends ConsumerState<AddTodoScreen> {
   late TextEditingController controller;
+  bool isSubmitVisible = true;
   String todoExample = todoExamples[Random().nextInt(todoExamples.length)];
 
   @override
   void initState() {
     super.initState();
     controller = TextEditingController(text: widget.todo?.title ?? '');
+  }
+
+  void canSubmit() {
+    setState(() {
+      isSubmitVisible = controller.text.isNotEmpty;
+    });
   }
 
   @override
@@ -46,13 +53,13 @@ class _AddTodoScreenState extends ConsumerState<AddTodoScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        title: controller.text == ''
+        title: controller.text.isEmpty
             ? const Text('Add a task')
             : const Text('Edit task'),
         actions: [
           IconButton(
             icon: const Icon(Icons.check),
-            onPressed: saveTodo,
+            onPressed: isSubmitVisible ? saveTodo : null,
           ),
         ],
       ),
@@ -67,6 +74,7 @@ class _AddTodoScreenState extends ConsumerState<AddTodoScreen> {
               onSubmitted: (_) {
                 saveTodo();
               },
+              onChanged: (_) => canSubmit(),
               decoration: InputDecoration(
                 hintText: 'e.g., $todoExample',
                 label: const Text('Your task'),

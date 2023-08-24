@@ -12,13 +12,13 @@ class TodoListTile extends ConsumerWidget {
     required this.isVisible,
     required this.todos,
     required this.index,
-    this.textStyle,
+    required this.lineThrough,
   }) : super(key: key);
 
   final bool isVisible;
   final List<Todo> todos;
-  final TextStyle? textStyle;
   final int index;
+  final bool lineThrough;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -43,7 +43,7 @@ class TodoListTile extends ConsumerWidget {
         },
         child: ListTile(
           onTap: () {
-            context.goNamed(AppRoute.addTodoScreen.name, extra: todos[index]);
+            context.pushNamed(AppRoute.addTodoScreen.name, extra: todos[index]);
           },
           leading: Checkbox(
             value: todos[index].completed,
@@ -51,7 +51,12 @@ class TodoListTile extends ConsumerWidget {
               ref.read(todoControllerProvider).toggleTodo(todos[index].id);
             },
           ),
-          title: Text(todos[index].title, style: textStyle),
+          title: Text(
+            todos[index].title,
+            style: lineThrough
+                ? const TextStyle(decoration: TextDecoration.lineThrough)
+                : null,
+          ),
         ),
       ),
     );

@@ -25,6 +25,13 @@ class CollectionRepository extends StateNotifier<List<Collection>> {
     state = state.where((collection) => collection.id != id).toList();
   }
 
+  void editCollectionName(String name, String id) {
+    state = [
+      for (final collection in state)
+        if (collection.id == id) collection.copyWith(name: name) else collection
+    ];
+  }
+
   void addTodoToCollection(String id, Todo todo) {
     state = state.map((collection) {
       if (collection.id == id) {
@@ -49,4 +56,9 @@ class CollectionRepository extends StateNotifier<List<Collection>> {
 final collectionRepositoryProvider =
     StateNotifierProvider<CollectionRepository, List<Collection>>((ref) {
   return CollectionRepository();
+});
+
+final collectionByIdProvider = Provider.family<Collection, String>((ref, id) {
+  final collections = ref.watch(collectionRepositoryProvider);
+  return collections.firstWhere((collection) => collection.id == id);
 });
