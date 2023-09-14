@@ -26,6 +26,7 @@ class MainApp extends ConsumerWidget {
         ),
         darkTheme: ThemeData(
           useMaterial3: true,
+          brightness: Brightness.dark,
           colorScheme: darkColorScheme,
           fontFamily: GoogleFonts.rubik().fontFamily,
         ),
