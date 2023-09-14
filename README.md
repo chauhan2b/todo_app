@@ -12,6 +12,7 @@ A simple Todo App built with Flutter that supports basic CRUD operations on todo
 - Edit existing todos to update their titles
 - Delete unwanted todos
 - Supports auto dark mode based on system settings
+- Dynamic theme based on wallpaper colors
 
 ## Screenshots
 
