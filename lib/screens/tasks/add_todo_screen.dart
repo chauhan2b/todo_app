@@ -70,7 +70,6 @@ class _AddTodoScreenState extends ConsumerState<AddTodoScreen> {
             TextField(
               controller: controller,
               autofocus: true,
-              // ! WARNING REMOVE WHEN ADDING NEW FEATURES
               onSubmitted: (_) {
                 saveTodo();
               },

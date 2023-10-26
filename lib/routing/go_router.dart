@@ -1,6 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:todo_app/models/collection.dart';
+import 'package:todo_app/screens/collections/collection_add_todo_screen.dart';
 import 'package:todo_app/screens/collections/edit_collection_screen.dart';
 import 'package:todo_app/screens/tasks/add_todo_screen.dart';
 import 'package:todo_app/screens/collections/collection_details_screen.dart';
@@ -19,6 +20,7 @@ enum AppRoute {
   tasksScreen,
   collectionDetailsScreen,
   editCollectionScreen,
+  collectionAddTodoScreen,
 }
 
 final goRouterProvider = Provider<GoRouter>((ref) {
@@ -59,8 +61,8 @@ final goRouterProvider = Provider<GoRouter>((ref) {
             name: AppRoute.collectionDetailsScreen.name,
             path: 'collection-details',
             builder: (context, state) {
-              final id = state.extra as String;
-              return CollectionDetailsScreen(id: id);
+              final collectionId = state.extra as String;
+              return CollectionDetailsScreen(collectionId: collectionId);
             },
             routes: [
               GoRoute(
@@ -69,6 +71,19 @@ final goRouterProvider = Provider<GoRouter>((ref) {
                 builder: (context, state) {
                   final collection = state.extra as Collection;
                   return EditCollectionScreen(collection: collection);
+                },
+              ),
+              GoRoute(
+                name: AppRoute.collectionAddTodoScreen.name,
+                path: ':collectionId/add-todo/:todoId',
+                builder: (context, state) {
+                  final collectionId =
+                      state.pathParameters['collectionId'] as String;
+                  final todoId = state.pathParameters['todoId'] as String;
+                  return CollectionAddTodoScreen(
+                    collectionId: collectionId,
+                    todoId: todoId,
+                  );
                 },
               ),
             ],

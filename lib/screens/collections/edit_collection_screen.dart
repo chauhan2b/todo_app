@@ -23,7 +23,6 @@ class _EditCollectionScreenState extends ConsumerState<EditCollectionScreen> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     controller = TextEditingController(text: widget.collection.name);
   }
@@ -86,7 +85,7 @@ class _EditCollectionScreenState extends ConsumerState<EditCollectionScreen> {
               ref
                   .read(collectionRepositoryProvider.notifier)
                   .removeCollection(widget.collection.id);
-              context.goNamed(AppRoute.collectionsScreen.name);
+              context.pushNamed(AppRoute.homeScreen.name);
             },
             icon: const Icon(Icons.delete),
             label: const Text('Delete collection'),
