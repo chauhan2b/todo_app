@@ -15,14 +15,6 @@ class NotesScreen extends ConsumerWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text('My Notes'),
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.add),
-            onPressed: () {
-              context.pushNamed(AppRoute.editNotesScreen.name);
-            },
-          )
-        ],
       ),
       drawer: const MyDrawer(),
       body: Padding(
@@ -41,7 +33,7 @@ class NotesScreen extends ConsumerWidget {
                 showDialog(
                   context: context,
                   builder: (context) => AlertDialog(
-                    title: const Text('Do you want to delete this note?'),
+                    title: const Text('Delete this note?'),
                     actions: [
                       TextButton(
                         child: const Text('Cancel'),
@@ -56,7 +48,7 @@ class NotesScreen extends ConsumerWidget {
                               .removeNote(note.id);
                           context.pop();
                         },
-                        child: const Text('Delate'),
+                        child: const Text('Delete'),
                       ),
                     ],
                   ),
@@ -89,6 +81,11 @@ class NotesScreen extends ConsumerWidget {
               );
             }),
       ),
+      floatingActionButton: FloatingActionButton(
+          onPressed: () {
+            context.pushNamed(AppRoute.editNotesScreen.name);
+          },
+          child: const Icon(Icons.add)),
     );
   }
 }
