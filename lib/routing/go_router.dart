@@ -1,8 +1,10 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:todo_app/models/collection.dart';
+import 'package:todo_app/models/note.dart';
 import 'package:todo_app/screens/collections/collection_add_todo_screen.dart';
 import 'package:todo_app/screens/collections/edit_collection_screen.dart';
+import 'package:todo_app/screens/notes/edit_notes_screen.dart';
 import 'package:todo_app/screens/tasks/add_todo_screen.dart';
 import 'package:todo_app/screens/collections/collection_details_screen.dart';
 import 'package:todo_app/screens/collections/collections_screen.dart';
@@ -21,6 +23,7 @@ enum AppRoute {
   collectionDetailsScreen,
   editCollectionScreen,
   collectionAddTodoScreen,
+  editNotesScreen,
 }
 
 final goRouterProvider = Provider<GoRouter>((ref) {
@@ -94,6 +97,21 @@ final goRouterProvider = Provider<GoRouter>((ref) {
         name: AppRoute.notesScreen.name,
         path: '/notes',
         builder: (context, state) => const NotesScreen(),
+        routes: [
+          GoRoute(
+            name: AppRoute.editNotesScreen.name,
+            path: 'edit',
+            builder: (context, state) {
+              if (state.extra != null) {
+                final note = state.extra as Note;
+                return EditNotesScreen(
+                  note: note,
+                );
+              }
+              return const EditNotesScreen();
+            },
+          ),
+        ],
       ),
     ],
   );

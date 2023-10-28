@@ -85,7 +85,11 @@ class _EditCollectionScreenState extends ConsumerState<EditCollectionScreen> {
               ref
                   .read(collectionRepositoryProvider.notifier)
                   .removeCollection(widget.collection.id);
-              context.pushNamed(AppRoute.homeScreen.name);
+
+              ref.invalidate(collectionRepositoryProvider);
+
+              // use goNamed because we want to replace the stack as it gets deleted
+              context.goNamed(AppRoute.homeScreen.name);
             },
             icon: const Icon(Icons.delete),
             label: const Text('Delete collection'),
